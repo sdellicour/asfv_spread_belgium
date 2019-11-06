@@ -69,9 +69,9 @@ primaries = shapefile("Raster_shapefiles/Isolated_primary_roads_shp/Primary_road
 fences_1 = shapefile("Raster_shapefiles/Clotures_20190731_shapefile/Clotures_20190731.shp")
 barriers = shapefile("Raster_shapefiles/Clotures_20190731_merged/Barriers_20190731.shp")
 clc_raster = raster("Raster_shapefiles/Corine_Land_Cover_rasters/CLC_original_raster.tif")
-forest_areas = raster("Raster_shapefiles/Corine_Land_Cover_rasters/Forest_areas.asc")
-agricultural_areas = raster("Raster_shapefiles/Corine_Land_Cover_rasters/Agricultural_areas.asc")
-artificial_areas = raster("Raster_shapefiles/Corine_Land_Cover_rasters/Artificial_areas.asc")
+forest_areas = raster("Raster_shapefiles/Corine_Land_Cover_rasters/Forest_areas.tif")
+agricultural_areas = raster("Raster_shapefiles/Corine_Land_Cover_rasters/Agricultural_areas.tif")
+artificial_areas = raster("Raster_shapefiles/Corine_Land_Cover_rasters/Artificial_areas.tif")
 land_cover = forest_areas; land_cover[agricultural_areas[]==1] = 2; land_cover[artificial_areas[]==1] = 3
 
 	# A.3. Uniformising the different projections
