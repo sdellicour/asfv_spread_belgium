@@ -79,7 +79,6 @@ land_cover = forest_areas; land_cover[agricultural_areas[]==1] = 2; land_cover[a
 crs(fences_1) = crs(communes)
 crs(barriers) = crs(fences_1)
 fences_2 = union(fences_1, barriers)
-belgium = crop(spTransform(belgium, lambert93), e1_lam93)
 borders = crop(spTransform(borders, lambert93), e1_lam93)
 communes = crop(spTransform(communes, lambert93), e1_lam93)
 motorways = crop(spTransform(motorways, lambert93), e1_lam93)
@@ -113,7 +112,7 @@ study_areas = forest_areas; study_areas[!is.na(study_areas[])] = 1
 
 if (!file.exists("GSP_collar_2.csv"))
 	{
-		gps = read.csv("GSP_collar_KM.csv") # removing outliers:
+		gps = read.csv("GSP_collar_1.csv") # removing outliers:
 		gps = gps[which(gps[,"gps_validity_code"]==1),]
 		times = matrix(nrow=dim(gps)[1], ncol=1)
 		colnames(times) = "time"
@@ -203,6 +202,7 @@ for (i in 1:length(individuals))
 	}
 if (!file.exists(paste0("GSP_data_2.pdf")))
 	{
+		if (OSMap == FALSE) data1 = read.csv("Data_130919.csv", header=T)
 		l = length(individuals); p = round(length(individuals)/3)+1; OSMap = FALSE
 		cols = colorRampPalette(brewer.pal(11,"Spectral"))(l+p)[c(1:(l/2),((l/2)+p):(l+p))]
 		if (OSMap == TRUE)
@@ -894,7 +894,7 @@ for (k in kS)
 
 pathModels = c(2,3); nberOfCorses = 10
 extractions_obs_4 = environmentalExtraction4(segments_obs, rasters4, resistances, pathModels, nberOfCorses)
-write.csv(extractions_obs_4, "Extractions_4_LC.csv", row.names=F, quote=F)
+write.csv(extractions_obs_4, "Extractions_LC.csv", row.names=F, quote=F)
 
 pathModel = "LC"; pathModel = "CS"
 distancesToFirstCase = matrix(nrow=dim(segments_obs)[1], ncol=1)
@@ -906,7 +906,7 @@ for (i in 1:dim(distancesToFirstCase)[1])
 		dy = segments_obs[i,"y2"]-firstCasePosition["y1"]
 		distancesToFirstCase[i,1] = sqrt((dx^2)+(dy^2))
 	}
-extractions_obs_4 = read.csv(paste0("Extractions_4_",pathModel,".csv"), header=T)
+extractions_obs_4 = read.csv(paste0("Extractions_",pathModel,".csv"), header=T)
 velocities = distancesToFirstCase/segments_obs[,"d2"] # m/day
 residualsLR = matrix(nrow=dim(segments_obs)[1], ncol=dim(extractions_obs_4)[2])
 colnames(residualsLR) = colnames(extractions_obs_4)
@@ -1125,7 +1125,7 @@ for (i in 2:length(rasters4_selected))
 				if (pathModels[j] == 3) { pathModel = "CS" }
 				envVariableName = names(rasters4_selected[[i]])
 				if ((i==3)&(j==1)) envVariableName = gsub("k10","k100",envVariableName)
-				extractions_obs_4 = read.csv(paste0("Extractions_4_",pathModel,".csv"), header=T)
+				extractions_obs_4 = read.csv(paste0("Extractions_",pathModel,".csv"), header=T)
 				rasterNull = paste0(pathModel,"_null_raster")
 				rasterName = paste0(pathModel,"_",envVariableName)
 				y = segments_obs[,"d2"]; x = extractions_obs_4[,rasterNull]
